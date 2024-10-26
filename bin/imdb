@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const minimist = require('minimist');
+const cli = require('../cli');
+const argv = minimist(process.argv.slice(2));
+
+const usage = `
+imdbtr - IMDb on terminal
+
+Usage
+  $ imdbtr [OPTIONS]
+
+Example:
+  $ imdbtr "The Godfather" --year 1972
+
+Options:
+  -y --year            Filter movie by year
+  -h --help            Display usage details
+`;
+
+if (argv.h) {
+	console.log(usage);
+	return;
+}
+
+if ((argv._.join(' ')).length > 0) {
+	cli.run(argv);
+} else {
+	console.log(usage);
+}

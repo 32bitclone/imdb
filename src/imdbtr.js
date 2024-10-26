@@ -1,6 +1,5 @@
 'use strict';
 
-const chalk = require('chalk');
 const figures = require('figures');
 const ora = require('ora');
 const api = require('./api.js');
@@ -19,31 +18,38 @@ const imdbtr = params => {
   }
 
   const values = Object.values(params).join(', ');
-  const spinner = ora(`Searching for ${chalk.yellow(values)}`).start();
+  const spinner = ora(`Searching for ${values}`).start();
 
   return movie.then(result => {
     spinner.stop();
     if (!result) {
-      return console.log(chalk.yellow.bold('Movie not found on IMDB :('));
+      return console.log('Movie not found on IMDB :(');
     }
 
-    const movieRes = `
-  ${chalk.black.bgYellow.bold(result.Title)} (${result.Year}) on IMDb:
+    const movieRes = `---
+genre: ${result.Genre}
+length: ${result.Runtime}
+rating_imdb: ${result.imdbRating}
+my_rating: 
+date_watched: 
+---
 
-  ${chalk.yellow(`${figures.star} ${result.imdbRating}`)}
+![poster](${result.Poster})
 
-  Duration: .... ${helpers.formatDate(result.Runtime)}
-  Director: .... ${result.Director}
-  Writer: ...... ${result.Writer}
-  Stars: ....... ${result.Actors}
-  Genre: ....... ${chalk.italic(result.Genre)}
-  Plot: ... ${result.Plot}
+# ${result.Title}, ${result.Year}
+
+${result.Plot}
+
+## Featuring
+
+- Actors: ${result.Actors}
+- Directed by: ${result.Director}
     `;
 
     console.log(movieRes);
   }).catch(error => {
     spinner.stop();
-    console.error(chalk.red.bold('Something went wrong :('));
+    console.error('Something went wrong :(');
     console.error(error);
   });
 };
