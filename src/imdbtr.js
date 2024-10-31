@@ -43,7 +43,7 @@ ${result.Plot}
 ## Featuring
 
 - Actors: ${result.Actors}
-- Directed by: ${result.Director}
+- Directed By: ${result.Director}
     `;
 
     console.log(movieRes);
